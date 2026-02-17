@@ -1,7 +1,12 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Licenta.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<LicentaContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LicentaContext") ?? throw new InvalidOperationException("Connection string 'LicentaContext' not found.")));
 
 var app = builder.Build();
 

@@ -1,0 +1,84 @@
+﻿@page
+@model Licenta.Pages.Autovehicule.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].Marca.NumeMarca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].NrInmatriculare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].Combustibil.TipCombustibil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].Kilometraj)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].DataITP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].DataRCA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].DataRovinieta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].DataRevizie)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Autovehicul) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marca.NumeMarca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NrInmatriculare)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Combustibil.TipCombustibil)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kilometraj)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataITP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataRCA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataRovinieta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataRevizie)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
