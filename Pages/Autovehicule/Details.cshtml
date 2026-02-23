@@ -12,16 +12,34 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Autovehicul.Marca.NumeMarca)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Autovehicul.Marca.NumeMarca)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Autovehicul.Model)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Autovehicul.Model)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Autovehicul.SerieSasiu)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Autovehicul.SerieSasiu)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Autovehicul.NrInmatriculare)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Autovehicul.NrInmatriculare)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Autovehicul.Combustibil.TipCombustibil)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Autovehicul.Combustibil.TipCombustibil)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Autovehicul.Kilometraj)

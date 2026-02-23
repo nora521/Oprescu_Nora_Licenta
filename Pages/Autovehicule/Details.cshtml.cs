@@ -28,7 +28,7 @@ namespace Licenta.Pages.Autovehicule
                 return NotFound();
             }
 
-            var autovehicul = await _context.Autovehicul.FirstOrDefaultAsync(m => m.ID == id);
+            var autovehicul = await _context.Autovehicul.Include(a=>a.Marca).Include(c=>c.Combustibil).FirstOrDefaultAsync(m => m.ID == id);
             if (autovehicul == null)
             {
                 return NotFound();

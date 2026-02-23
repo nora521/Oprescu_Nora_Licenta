@@ -20,6 +20,9 @@
                 @Html.DisplayNameFor(model => model.Autovehicul[0].Model)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].SerieSasiu)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Autovehicul[0].NrInmatriculare)
             </th>
             <th>
@@ -52,6 +55,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerieSasiu)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NrInmatriculare)
             </td>
