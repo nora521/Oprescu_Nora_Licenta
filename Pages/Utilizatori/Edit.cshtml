@@ -1,0 +1,60 @@
+﻿@page
+@model Licenta.Pages.Utilizatori.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Utilizator</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Utilizator.ID" />
+            <div class="form-group">
+                <label asp-for="Utilizator.Nume" class="control-label"></label>
+                <input asp-for="Utilizator.Nume" class="form-control" />
+                <span asp-validation-for="Utilizator.Nume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Utilizator.Prenume" class="control-label"></label>
+                <input asp-for="Utilizator.Prenume" class="form-control" />
+                <span asp-validation-for="Utilizator.Prenume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Utilizator.CNP" class="control-label"></label>
+                <input asp-for="Utilizator.CNP" class="form-control" />
+                <span asp-validation-for="Utilizator.CNP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Utilizator.Email" class="control-label"></label>
+                <input asp-for="Utilizator.Email" class="form-control" />
+                <span asp-validation-for="Utilizator.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Utilizator.NrTelefon" class="control-label"></label>
+                <input asp-for="Utilizator.NrTelefon" class="form-control" />
+                <span asp-validation-for="Utilizator.NrTelefon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Utilizator.Parola" class="control-label"></label>
+                <input asp-for="Utilizator.Parola" class="form-control" />
+                <span asp-validation-for="Utilizator.Parola" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

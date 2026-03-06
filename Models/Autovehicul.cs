@@ -19,6 +19,8 @@ namespace Licenta.Models
         public int? CombustibilID { get; set; }
         public Combustibil? Combustibil { get; set; }
         public int Kilometraj { get; set; }
+        [Display(Name = "Consum Mixt(l/100 km)")]
+        public decimal ConsumMixt { get; set; }
         [Display(Name = "Dată Exp. ITP")]
         [DataType(DataType.Date)]
         public DateTime DataITP { get; set; }
@@ -32,5 +34,8 @@ namespace Licenta.Models
         [DataType(DataType.Date)]
         public DateTime DataRevizie { get; set; }
 
+        [Display(Name = "Conducător auto")]
+        public int? UtilizatorID { get; set; }
+        public Utilizator? Utilizator { get; set; }
     }
 }

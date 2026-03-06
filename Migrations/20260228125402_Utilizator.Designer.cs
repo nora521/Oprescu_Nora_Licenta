@@ -4,6 +4,7 @@ using Licenta.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Licenta.Migrations
 {
     [DbContext(typeof(LicentaContext))]
-    partial class LicentaContextModelSnapshot : ModelSnapshot
+    [Migration("20260228125402_Utilizator")]
+    partial class Utilizator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +35,6 @@ namespace Licenta.Migrations
 
                     b.Property<int?>("CombustibilID")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("ConsumMixt")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("DataITP")
                         .HasColumnType("datetime2");

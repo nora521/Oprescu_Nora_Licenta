@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Licenta.Data;
 using Licenta.Models;
 
-namespace Licenta.Pages.Autovehicule
+namespace Licenta.Pages.Utilizatori
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace Licenta.Pages.Autovehicule
         }
 
         [BindProperty]
-        public Autovehicul Autovehicul { get; set; } = default!;
+        public Utilizator Utilizator { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,15 +30,12 @@ namespace Licenta.Pages.Autovehicule
                 return NotFound();
             }
 
-            var autovehicul =  await _context.Autovehicul.FirstOrDefaultAsync(m => m.ID == id);
-            if (autovehicul == null)
+            var utilizator =  await _context.Utilizator.FirstOrDefaultAsync(m => m.ID == id);
+            if (utilizator == null)
             {
                 return NotFound();
             }
-            Autovehicul = autovehicul;
-            ViewData["MarcaID"] = new SelectList(_context.Set<Marca>(), "ID", "NumeMarca");
-            ViewData["CombustibilID"] = new SelectList(_context.Set<Combustibil>(), "ID", "TipCombustibil");
-            ViewData["UtilizatorID"] = new SelectList(_context.Set<Utilizator>(), "ID", "FullName");
+            Utilizator = utilizator;
             return Page();
         }
 
@@ -51,7 +48,7 @@ namespace Licenta.Pages.Autovehicule
                 return Page();
             }
 
-            _context.Attach(Autovehicul).State = EntityState.Modified;
+            _context.Attach(Utilizator).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +56,7 @@ namespace Licenta.Pages.Autovehicule
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AutovehiculExists(Autovehicul.ID))
+                if (!UtilizatorExists(Utilizator.ID))
                 {
                     return NotFound();
                 }
@@ -72,9 +69,9 @@ namespace Licenta.Pages.Autovehicule
             return RedirectToPage("./Index");
         }
 
-        private bool AutovehiculExists(int id)
+        private bool UtilizatorExists(int id)
         {
-            return _context.Autovehicul.Any(e => e.ID == id);
+            return _context.Utilizator.Any(e => e.ID == id);
         }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Licenta.Data;
 using Licenta.Models;
 
-namespace Licenta.Pages.Autovehicule
+namespace Licenta.Pages.Utilizatori
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace Licenta.Pages.Autovehicule
             _context = context;
         }
 
-        public Autovehicul Autovehicul { get; set; } = default!;
+        public Utilizator Utilizator { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,14 +28,14 @@ namespace Licenta.Pages.Autovehicule
                 return NotFound();
             }
 
-            var autovehicul = await _context.Autovehicul.Include(a=>a.Marca).Include(c=>c.Combustibil).Include(u=>u.Utilizator).FirstOrDefaultAsync(m => m.ID == id);
-            if (autovehicul == null)
+            var utilizator = await _context.Utilizator.FirstOrDefaultAsync(m => m.ID == id);
+            if (utilizator == null)
             {
                 return NotFound();
             }
             else
             {
-                Autovehicul = autovehicul;
+                Utilizator = utilizator;
             }
             return Page();
         }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Licenta.Data;
 using Licenta.Models;
 
-namespace Licenta.Pages.Autovehicule
+namespace Licenta.Pages.Utilizatori
 {
     public class CreateModel : PageModel
     {
@@ -21,14 +21,11 @@ namespace Licenta.Pages.Autovehicule
 
         public IActionResult OnGet()
         {
-            ViewData["MarcaID"] = new SelectList(_context.Set<Marca>(), "ID","NumeMarca");
-            ViewData["CombustibilID"] = new SelectList(_context.Set<Combustibil>(), "ID","TipCombustibil");
-            ViewData["UtilizatorID"] = new SelectList(_context.Set<Utilizator>(), "ID","FullName");
             return Page();
         }
 
         [BindProperty]
-        public Autovehicul Autovehicul { get; set; } = default!;
+        public Utilizator Utilizator { get; set; } = default!;
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
@@ -38,7 +35,7 @@ namespace Licenta.Pages.Autovehicule
                 return Page();
             }
 
-            _context.Autovehicul.Add(Autovehicul);
+            _context.Utilizator.Add(Utilizator);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

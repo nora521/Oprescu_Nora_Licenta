@@ -32,6 +32,9 @@
                 @Html.DisplayNameFor(model => model.Autovehicul[0].Kilometraj)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].ConsumMixt)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Autovehicul[0].DataITP)
             </th>
             <th>
@@ -42,6 +45,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Autovehicul[0].DataRevizie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].Utilizator.FullName)
             </th>
             <th></th>
         </tr>
@@ -67,6 +73,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Kilometraj)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConsumMixt)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DataITP)
             </td>
@@ -79,6 +88,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DataRevizie)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Utilizator.FullName)
+                </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |

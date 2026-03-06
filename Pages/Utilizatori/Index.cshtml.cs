@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Licenta.Data;
 using Licenta.Models;
 
-namespace Licenta.Pages.Autovehicule
+namespace Licenta.Pages.Utilizatori
 {
     public class IndexModel : PageModel
     {
@@ -19,11 +19,11 @@ namespace Licenta.Pages.Autovehicule
             _context = context;
         }
 
-        public IList<Autovehicul> Autovehicul { get;set; } = default!;
+        public IList<Utilizator> Utilizator { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Autovehicul = await _context.Autovehicul.Include(m =>m.Marca).Include(c => c.Combustibil).Include(u=>u.Utilizator).ToListAsync();
+            Utilizator = await _context.Utilizator.ToListAsync();
         }
     }
 }
