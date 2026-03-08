@@ -104,7 +104,7 @@
                     <td>@Html.DisplayFor(modelItem => item.Utilizator.FullName)</td>
                 }
             <td>
-                
+                <a asp-page-handler="ExportPdf" asp-route-id="@item.ID" class="text-danger">Export PDF </a>
                 <a asp-page="./Details" asp-route-id="@item.ID">Details </a>
                     @if (User.IsInRole("Admin") || User.Identity.Name == "nora_oprescu@yahoo.com")
                     {
