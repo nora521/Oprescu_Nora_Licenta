@@ -19,11 +19,40 @@ namespace Licenta.Pages.Autovehicule
             _context = context;
         }
 
-        public IList<Autovehicul> Autovehicul { get;set; } = default!;
+        public IList<Autovehicul> Autovehicul { get; set; } = default!;
+        public string CurrentFilter { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string searchString)
         {
-            Autovehicul = await _context.Autovehicul.Include(m =>m.Marca).Include(c => c.Combustibil).Include(u=>u.Utilizator).ToListAsync();
+
+            CurrentFilter = searchString;
+
+            var userEmail = User.Identity?.Name;
+
+            var query = from row in _context.Autovehicul
+                .Include(m => m.Marca)
+                .Include(c => c.Combustibil)
+                .Include(u => u.Utilizator)
+                        select row;
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                query = query.Where(s => s.NrInmatriculare.Contains(searchString)
+                      || s.Marca.NumeMarca.Contains(searchString)
+                      || s.Model.Contains(searchString)
+                      || s.Utilizator.Nume.Contains(searchString)
+                      || s.Utilizator.Prenume.Contains(searchString));
+                }
+
+                bool esteAdmin = User.IsInRole("Admin") || userEmail == "nora_oprescu@yahoo.com";
+
+                if (!esteAdmin)
+                {
+                    query = query.Where(a => a.Utilizator.Email == userEmail);
+                }
+
+                Autovehicul = await query.ToListAsync();
+            
         }
     }
 }

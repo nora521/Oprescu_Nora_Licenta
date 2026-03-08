@@ -7,9 +7,16 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Căutare:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Înapoi</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -27,9 +34,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Utilizator[0].NrTelefon)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Utilizator[0].Parola)
             </th>
             <th></th>
         </tr>
@@ -51,9 +55,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NrTelefon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Parola)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

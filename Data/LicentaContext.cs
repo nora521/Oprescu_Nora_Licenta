@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Licenta.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Licenta.Data
 {
-    public class LicentaContext : DbContext
+    public class LicentaContext : IdentityDbContext
     {
         public LicentaContext (DbContextOptions<LicentaContext> options)
             : base(options)

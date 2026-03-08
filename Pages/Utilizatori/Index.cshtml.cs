@@ -21,9 +21,24 @@ namespace Licenta.Pages.Utilizatori
 
         public IList<Utilizator> Utilizator { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public string CurrentFilter { get; set; }
+
+        public async Task OnGetAsync(string searchString)
         {
-            Utilizator = await _context.Utilizator.ToListAsync();
+            CurrentFilter = searchString;
+            var query = from u in _context.Utilizator
+                        select u;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(u => u.Nume.Contains(searchString)
+                                      || u.Prenume.Contains(searchString)
+                                      || u.Email.Contains(searchString)
+                                      || u.CNP.Contains(searchString)
+                                      || u.NrTelefon.Contains(searchString));
+            }
+
+            Utilizator = await query.ToListAsync();
         }
     }
 }
