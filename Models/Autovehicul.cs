@@ -37,5 +37,7 @@ namespace Licenta.Models
         [Display(Name = "Conducător auto")]
         public int? UtilizatorID { get; set; }
         public Utilizator? Utilizator { get; set; }
+
+        public bool Confirmare { get; set; } = false;
     }
 }

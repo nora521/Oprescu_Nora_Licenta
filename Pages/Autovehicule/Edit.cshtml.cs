@@ -54,6 +54,7 @@ namespace Licenta.Pages.Autovehicule
             }
 
             _context.Attach(Autovehicul).State = EntityState.Modified;
+            Autovehicul.Confirmare = false;
 
             try
             {

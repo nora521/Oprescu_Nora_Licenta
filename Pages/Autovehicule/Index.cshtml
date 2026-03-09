@@ -72,9 +72,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SerieSasiu)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerieSasiu)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NrInmatriculare)
             </td>
@@ -84,33 +84,41 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Kilometraj)
             </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConsumMixt)
-                </td>
             <td>
+                @Html.DisplayFor(modelItem => item.ConsumMixt)
+            </td>
+                <td style="@(item.DataITP.Date <= DateTime.Now.Date.AddDays(7) && item.DataITP.Date >= DateTime.Now.Date ? "background-color: #ffdce0; color: #b32424; font-weight: bold;" : "")">
                 @Html.DisplayFor(modelItem => item.DataITP)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataRCA)
+                <td style="@(item.DataRCA.Date <= DateTime.Now.Date.AddDays(7) && item.DataRCA.Date >= DateTime.Now.Date ? "background-color: #ffdce0; color: #b32424; font-weight: bold;" : "")">
+                 @Html.DisplayFor(modelItem => item.DataRCA)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataRovinieta)
+                <td style="@(item.DataRovinieta.Date <= DateTime.Now.Date.AddDays(7) && item.DataRovinieta.Date >= DateTime.Now.Date ? "background-color:  #ffdce0; color: #b32424; font-weight: bold;" : "")">
+                 @Html.DisplayFor(modelItem => item.DataRovinieta)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataRevizie)
+
+                <td style="@(item.DataRevizie.Date <= DateTime.Now.Date.AddDays(7) && item.DataRevizie.Date >= DateTime.Now.Date ? "background-color:  #ffdce0; color: #b32424; font-weight: bold;" : "")">
+                 @Html.DisplayFor(modelItem => item.DataRevizie)
             </td>
                 @if (User.IsInRole("Admin") || User.Identity.Name == "nora_oprescu@yahoo.com")
                 {
                     <td>@Html.DisplayFor(modelItem => item.Utilizator.FullName)</td>
                 }
             <td>
-                <a asp-page-handler="ExportPdf" asp-route-id="@item.ID" class="text-danger">Export PDF </a>
-                <a asp-page="./Details" asp-route-id="@item.ID">Details </a>
+                <a asp-page-handler="ExportPdf" asp-route-id="@item.ID">Export PDF </a>
+                <a asp-page="./Details" asp-route-id="@item.ID">Details |</a>
                     @if (User.IsInRole("Admin") || User.Identity.Name == "nora_oprescu@yahoo.com")
                     {
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit </a> 
-                <a asp-page= "./Delete" asp-route-id="@item.ID"> Delete </a>
+                <a asp-page= "./Delete" asp-route-id="@item.ID"> Delete |</a>
                                
+                    }
+                    @if (!item.Confirmare && (item.DataITP.Date <= DateTime.Now.Date.AddDays(7) || item.DataRCA.Date <= DateTime.Now.Date.AddDays(7)))
+                    {
+                        <form asp-page-handler="Confirmare" asp-route-id="@item.ID" method="post" style="display:inline;">
+                            <label>Confirmare</label>
+                            <input type="checkbox" title="Confirmare"></input>
+                        </form>
                     }
             </td>
         </tr>

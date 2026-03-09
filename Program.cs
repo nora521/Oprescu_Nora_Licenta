@@ -1,13 +1,15 @@
+using Licenta.Data;
+using Licenta.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Licenta.Data;
-using Microsoft.AspNetCore.Identity;
 using QuestPDF.Infrastructure;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-QuestPDF.Settings.License = LicenseType.Community;
+QuestPDF.Settings.License = LicenseType.Community; //export pdf
+
 
 builder.Services.AddAuthorization(options =>
 {
@@ -31,7 +33,12 @@ builder.Services.AddDbContext<LicentaContext>(options =>
 builder.Services.AddDbContext<LibraryIdentityContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LicentaContext") ?? throw new InvalidOperationException("Connection string 'LicentaContext' not found.")));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<LibraryIdentityContext>();
+
+builder.Services.AddTransient<Licenta.Services.EmailService>(); //serviciu mail
+builder.Services.AddHostedService<NotificariBackgroundService>(); //background service
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

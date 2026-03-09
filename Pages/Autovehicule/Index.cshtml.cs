@@ -174,5 +174,17 @@ namespace Licenta.Pages.Autovehicule
                 container.BorderBottom(1).BorderColor(Colors.Grey.Lighten3).PaddingVertical(5);
         }
 
+        public async Task<IActionResult> OnPostConfirmareAsync(int id)
+        {
+            var autovehicul = await _context.Autovehicul.FindAsync(id);
+
+            if (autovehicul != null)
+            {
+                autovehicul.Confirmare = true; 
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage();
+        }
     }
 }
