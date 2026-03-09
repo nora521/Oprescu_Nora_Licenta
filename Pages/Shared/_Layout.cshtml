@@ -3,16 +3,100 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Licenta</title>
+    <title>@ViewData["Title"] - Gestiune Auto</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --navy-dark: #001f3f;
+            --navy-medium: #003366;
+            --bg-light-blue: #f0f4f8; 
+            --accent-gold: #ffca28;
+        }
+
+        body {
+            background-color: var(--bg-light-blue);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #334155;
+        }
+
+        .navbar-custom {
+            background-color: var(--navy-dark) !important;
+            padding: 0.8rem 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+            .navbar-custom .navbar-brand {
+                color: white !important;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+
+            .navbar-custom .nav-link {
+                color: rgba(255,255,255,0.85) !important;
+                font-weight: 500;
+                margin: 0 5px;
+                transition: all 0.2s;
+            }
+
+                .navbar-custom .nav-link:hover {
+                    color: var(--accent-gold) !important;
+                    transform: translateY(-1px);
+                }
+
+        .table {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+            .table thead {
+                background-color: var(--navy-dark);
+                color: white;
+            }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 51, 102, 0.03);
+        }
+
+
+        .main-card {
+            background: white;
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+
+        .btn-primary {
+            background-color: var(--navy-medium);
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: var(--navy-dark);
+            }
+
+        footer {
+            background: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Licenta.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark navbar-custom mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Licenta</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index"> LICENȚĂ </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,34 +104,32 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Autovehicule/Index">Autovehicule</a>
+                            <a class="nav-link" asp-area="" asp-page="/Autovehicule/Index">
+                                <i class="bi bi-car-front me-1"></i> Autovehicule
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Marci/Index">Marci</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Combustibili/Index">Combustibili</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Utilizatori/Index">Utilizatori</a>
+                            <a class="nav-link" asp-area="" asp-page="/Utilizatori/Index">
+                                <i class="bi bi-people me-1"></i> Utilizatori
+                            </a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
-            </div> 
+            </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <div class="main-card">
+                @RenderBody()
+            </div>
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Licenta - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+    
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

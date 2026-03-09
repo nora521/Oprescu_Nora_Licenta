@@ -5,18 +5,23 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Autovehicule</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    @if (User.IsInRole("Admin") || User.Identity.Name == "nora_oprescu@yahoo.com")
+    {
+        <a asp-page="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i> Adaugă Vehicul
+        </a>
+    }
 </p>
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
         <p>
             Căutare:
             <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Index">Înapoi</a>
+            <input type="submit" value="Căutare" class="btn btn-primary" /> |
+            <a asp-page="./Index" class="btn btn-primary"> Înapoi </a>
         </p>
     </div>
 </form>
@@ -105,12 +110,18 @@
                     <td>@Html.DisplayFor(modelItem => item.Utilizator.FullName)</td>
                 }
             <td>
-                <a asp-page-handler="ExportPdf" asp-route-id="@item.ID">Export PDF </a>
-                <a asp-page="./Details" asp-route-id="@item.ID">Details |</a>
+                    <a asp-page-handler="ExportPdf" asp-route-id="@item.ID" class="btn btn-navy-outline-icon"><i class="bi bi-file-earmark-pdf me-2"></i> Export PDF </a>
+                    <a asp-page="./Details" asp-route-id="@item.ID" class="btn btn-outline-navy btn-sm px-3 mx-1">
+                        <i class="bi bi-eye"></i> Detalii
+                    </a>
                     @if (User.IsInRole("Admin") || User.Identity.Name == "nora_oprescu@yahoo.com")
                     {
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit </a> 
-                <a asp-page= "./Delete" asp-route-id="@item.ID"> Delete |</a>
+                        <a asp-page="./Edit" asp-route-id="@item.ID" class="btn btn-outline-navy btn-sm px-3">
+                            <i class="bi bi-pencil"></i> Editare
+                        </a>
+                        <a asp-page="./Delete" asp-route-id="@item.ID" class="btn btn-outline-danger btn-sm px-3">
+                            <i class="bi bi-trash"></i> Ștergere
+                        </a>
                                
                     }
                     @if (!item.Confirmare && (item.DataITP.Date <= DateTime.Now.Date.AddDays(7) || item.DataRCA.Date <= DateTime.Now.Date.AddDays(7)))

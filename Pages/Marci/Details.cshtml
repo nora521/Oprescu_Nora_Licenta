@@ -2,13 +2,13 @@
 @model Licenta.Pages.Marci.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalii";
 }
 
 <h1>Details</h1>
 
 <div>
-    <h4>Marca</h4>
+    <h4>Marcă</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -20,6 +20,6 @@
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.Marca.ID">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Edit" asp-route-id="@Model.Marca.ID" class="btn btn-primary">Editare</a> |
+    <a asp-page="./Index" class="btn btn-primary">Înapoi</a>
 </div>

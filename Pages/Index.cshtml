@@ -1,10 +1,27 @@
 ﻿@page
 @model IndexModel
+@using Microsoft.EntityFrameworkCore
+@inject Licenta.Data.LicentaContext _context
+
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@{
+    var userEmail = User.Identity?.Name;
+    var dateUtilizator = await _context.Utilizator
+        .FirstOrDefaultAsync(u => u.Email == userEmail);
+}
+
+<div class="text-center py-5">
+    <h1 class="display-4 fw-bold" style="color: #001f3f;">
+        @if (dateUtilizator != null)
+        {
+            <span>Bine ai venit, @dateUtilizator.FullName!</span>
+        }
+        else
+        {
+            <span>Bine ai venit!</span>
+        }
+    </h1>
 </div>

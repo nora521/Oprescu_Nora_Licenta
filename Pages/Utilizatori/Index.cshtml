@@ -5,15 +5,15 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Utilizatori</h1>
 
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
         <p>
             Căutare:
             <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Index">Înapoi</a>
+            <input type="submit" value="Căutare" class="btn btn-primary" /> |
+            <a asp-page="./Index" class="btn btn-primary">Înapoi</a>
         </p>
     </div>
 </form>
@@ -57,9 +57,9 @@
                 @Html.DisplayFor(modelItem => item.NrTelefon)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.ID" class="btn btn-primary">Editare</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID" class="btn btn-primary">Detalii</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID" class="btn btn-primary">Ștergere</a>
             </td>
         </tr>
 }
