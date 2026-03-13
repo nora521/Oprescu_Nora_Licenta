@@ -15,7 +15,7 @@ namespace Licenta.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);//astept pana se incarca site ul
+            await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
             while (!stoppingToken.IsCancellationRequested)
             {
                 await CheckAndSend(stoppingToken);
@@ -63,7 +63,7 @@ namespace Licenta.Services
                             if (auto.DataRCA.Date >= azi && auto.DataRCA.Date <= prag)
                             {
                                 int zile = (auto.DataRCA.Date - azi).Days;
-                                string textZile = zile == 0 ? "expiră ASTĂZI!" : $"mai aveți {zile} zile";
+                                string textZile = zile == 0 ? "expiră ASTĂZI!" : (zile == 1 ? "mai aveți o zi" : $"mai aveți {zile} zile");
                                 detaliiExpirare += $"<li><b>RCA:</b> {auto.DataRCA:dd.MM.yyyy} - {textZile}</li>";
                             }
 
