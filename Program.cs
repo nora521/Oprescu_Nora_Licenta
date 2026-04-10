@@ -39,6 +39,17 @@ builder.Services.AddHostedService<NotificariBackgroundService>(); //background s
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+    var user = await userManager.FindByEmailAsync("nora_oprescu@yahoo.com");
+
+    if (user != null && !await userManager.IsInRoleAsync(user, "Admin"))
+    {
+        await userManager.AddToRoleAsync(user, "Admin");
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

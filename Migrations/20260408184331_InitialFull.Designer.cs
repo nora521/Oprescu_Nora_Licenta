@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Licenta.Migrations.LibraryIdentity
+namespace Licenta.Migrations
 {
-    [DbContext(typeof(LibraryIdentityContext))]
-    [Migration("20260306145946_CreateIdentity")]
-    partial class CreateIdentity
+    [DbContext(typeof(LicentaContext))]
+    [Migration("20260408184331_InitialFull")]
+    partial class InitialFull
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,141 @@ namespace Licenta.Migrations.LibraryIdentity
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Licenta.Models.Autovehicul", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int?>("CombustibilID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Confirmare")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("ConsumMixt")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("DataITP")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataRCA")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataRevizie")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataRovinieta")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Kilometraj")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MarcaID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NrInmatriculare")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Poza")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SerieSasiu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UtilizatorID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CombustibilID");
+
+                    b.HasIndex("MarcaID");
+
+                    b.HasIndex("UtilizatorID");
+
+                    b.ToTable("Autovehicul");
+                });
+
+            modelBuilder.Entity("Licenta.Models.Combustibil", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("TipCombustibil")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Combustibil");
+                });
+
+            modelBuilder.Entity("Licenta.Models.Marca", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("NumeMarca")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Marca");
+                });
+
+            modelBuilder.Entity("Licenta.Models.Utilizator", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("CNP")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NrTelefon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nume")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Parola")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Prenume")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Utilizator");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -227,6 +362,27 @@ namespace Licenta.Migrations.LibraryIdentity
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Licenta.Models.Autovehicul", b =>
+                {
+                    b.HasOne("Licenta.Models.Combustibil", "Combustibil")
+                        .WithMany("Autovehicule")
+                        .HasForeignKey("CombustibilID");
+
+                    b.HasOne("Licenta.Models.Marca", "Marca")
+                        .WithMany("Autovehicule")
+                        .HasForeignKey("MarcaID");
+
+                    b.HasOne("Licenta.Models.Utilizator", "Utilizator")
+                        .WithMany("Autovehicule")
+                        .HasForeignKey("UtilizatorID");
+
+                    b.Navigation("Combustibil");
+
+                    b.Navigation("Marca");
+
+                    b.Navigation("Utilizator");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -276,6 +432,21 @@ namespace Licenta.Migrations.LibraryIdentity
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Licenta.Models.Combustibil", b =>
+                {
+                    b.Navigation("Autovehicule");
+                });
+
+            modelBuilder.Entity("Licenta.Models.Marca", b =>
+                {
+                    b.Navigation("Autovehicule");
+                });
+
+            modelBuilder.Entity("Licenta.Models.Utilizator", b =>
+                {
+                    b.Navigation("Autovehicule");
                 });
 #pragma warning restore 612, 618
         }

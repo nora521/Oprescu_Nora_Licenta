@@ -124,13 +124,7 @@
                         </a>
                                
                     }
-                    @if (!item.Confirmare && (item.DataITP.Date <= DateTime.Now.Date.AddDays(7) || item.DataRCA.Date <= DateTime.Now.Date.AddDays(7)))
-                    {
-                        <form asp-page-handler="Confirmare" asp-route-id="@item.ID" method="post" style="display:inline;">
-                            <label>Confirmare</label>
-                            <input type="checkbox" title="Confirmare"></input>
-                        </form>
-                    }
+                    
             </td>
         </tr>
 }

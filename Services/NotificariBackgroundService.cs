@@ -37,11 +37,11 @@ namespace Licenta.Services
                     .Include(a => a.Utilizator)
                     .Include(a => a.Marca)
                     .AsNoTracking()
-                    .Where(a => !a.Confirmare && (
+                    .Where(a =>
                         (a.DataITP.Date >= azi && a.DataITP.Date <= prag) ||
                         (a.DataRCA.Date >= azi && a.DataRCA.Date <= prag) ||
                         (a.DataRevizie.Date >= azi && a.DataRevizie.Date <= prag) ||
-                        (a.DataRovinieta.Date >= azi && a.DataRovinieta.Date <= prag))
+                        (a.DataRovinieta.Date >= azi && a.DataRovinieta.Date <= prag)
                     )
                     .ToListAsync(stoppingToken);
 

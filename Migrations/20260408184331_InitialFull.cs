@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Licenta.Migrations.LibraryIdentity
+namespace Licenta.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateIdentity : Migration
+    public partial class InitialFull : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,50 @@ namespace Licenta.Migrations.LibraryIdentity
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Combustibil",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TipCombustibil = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Combustibil", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Marca",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NumeMarca = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Marca", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Utilizator",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nume = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Prenume = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CNP = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NrTelefon = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Parola = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Utilizator", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +200,47 @@ namespace Licenta.Migrations.LibraryIdentity
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Autovehicul",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Poza = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MarcaID = table.Column<int>(type: "int", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SerieSasiu = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NrInmatriculare = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CombustibilID = table.Column<int>(type: "int", nullable: true),
+                    Kilometraj = table.Column<int>(type: "int", nullable: false),
+                    ConsumMixt = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DataITP = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataRCA = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataRovinieta = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataRevizie = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UtilizatorID = table.Column<int>(type: "int", nullable: true),
+                    Confirmare = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Autovehicul", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Autovehicul_Combustibil_CombustibilID",
+                        column: x => x.CombustibilID,
+                        principalTable: "Combustibil",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Autovehicul_Marca_MarcaID",
+                        column: x => x.MarcaID,
+                        principalTable: "Marca",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Autovehicul_Utilizator_UtilizatorID",
+                        column: x => x.UtilizatorID,
+                        principalTable: "Utilizator",
+                        principalColumn: "ID");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +279,21 @@ namespace Licenta.Migrations.LibraryIdentity
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Autovehicul_CombustibilID",
+                table: "Autovehicul",
+                column: "CombustibilID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Autovehicul_MarcaID",
+                table: "Autovehicul",
+                column: "MarcaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Autovehicul_UtilizatorID",
+                table: "Autovehicul",
+                column: "UtilizatorID");
         }
 
         /// <inheritdoc />
@@ -215,10 +315,22 @@ namespace Licenta.Migrations.LibraryIdentity
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Autovehicul");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Combustibil");
+
+            migrationBuilder.DropTable(
+                name: "Marca");
+
+            migrationBuilder.DropTable(
+                name: "Utilizator");
         }
     }
 }
