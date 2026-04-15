@@ -19,5 +19,9 @@ namespace Licenta.Data
         public DbSet<Licenta.Models.Marca> Marca { get; set; } = default!;
         public DbSet<Licenta.Models.Combustibil> Combustibil { get; set; } = default!;
         public DbSet<Licenta.Models.Utilizator> Utilizator { get; set; } = default!;
+        public DbSet<Licenta.Models.Rezervare> Rezervare { get; set; } = default!;
+        public DbSet<Licenta.Models.Transmisie> Transmisie { get; set; } = default!;
+        public DbSet<Licenta.Models.Categorie> Categorie { get; set; } = default!;
+        public DbSet<Licenta.Models.AutoCategorie> AutoCategorie { get; set; } = default!;
     }
 }

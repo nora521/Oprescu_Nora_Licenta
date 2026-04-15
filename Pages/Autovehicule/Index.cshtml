@@ -1,4 +1,5 @@
-﻿@page
+﻿@page 
+
 @model Licenta.Pages.Autovehicule.IndexModel
 
 @{
@@ -8,32 +9,95 @@
 <h1>Autovehicule</h1>
 
 <p>
-    @if (User.IsInRole("Admin") || User.Identity.Name == "nora_oprescu@yahoo.com")
+    @if (User.IsInRole("Admin"))
     {
         <a asp-page="Create" class="btn btn-primary">
             <i class="bi bi-plus-circle me-1"></i> Adaugă Vehicul
         </a>
     }
 </p>
-<form asp-page="./Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Căutare:
-            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Căutare" class="btn btn-primary" /> |
-            <a asp-page="./Index" class="btn btn-primary"> Înapoi </a>
-        </p>
+<form asp-page="./Index" method="get" class="mb-3">
+    <div class="form-actions no-color d-flex align-items-center gap-2">
+
+        <span>Căutare:</span>
+
+        <input type="text"
+               name="searchString"
+               value="@Request.Query["searchString"]" />
+
+        <input type="submit" value="Căutare" class="btn btn-primary ms-2" />
+
+        @if (!User.IsInRole("Admin"))
+        {
+            <label class="form-label mb-0 ms-2">Categorie:</label>
+            <select name="categoryID"
+                    asp-items="ViewBag.CategoryID"
+                    class="form-control"
+                    style="width: 200px"
+                    onchange="this.form.submit()">
+                <option value="">Toate categoriile</option>
+            </select>
+
+            <script>
+                        document.querySelector('select[name="categoryID"]').value =
+                            "@Request.Query["categoryID"]";
+            </script>
+
+            <label class="form-label mb-0 ms-2">Sortare preț:</label>
+            <select name="sortOrder"
+                    class="form-control"
+                    style="width: 180px"
+                    onchange="this.form.submit()">
+                <option value="">Fără sortare</option>
+                <option value="price_asc">Preț crescător</option>
+                <option value="price_desc">Preț descrescător</option>
+            </select>
+
+            <script>
+                        document.querySelector('select[name="sortOrder"]').value =
+                            "@Request.Query["sortOrder"]";
+            </script>
+        }
+
+        <a asp-page="./Index" class="btn btn-primary">Înapoi</a>
     </div>
 </form>
+
+
+
+
 <table class="table">
     <thead>
         <tr>
+            <th> 
+                
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Autovehicul[0].Marca.NumeMarca)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Autovehicul[0].Model)
             </th>
+            @if (!User.IsInRole("Admin"))
+            {
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].Combustibil.TipCombustibil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].Transmisie.TipTransmisie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].NrLocuri)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].NrBagaje)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autovehicul[0].PretZi)
+            </th>
+            }
+            @if (User.IsInRole("Admin"))
+            {
             <th>
                 @Html.DisplayNameFor(model => model.Autovehicul[0].SerieSasiu)
             </th>
@@ -41,13 +105,7 @@
                 @Html.DisplayNameFor(model => model.Autovehicul[0].NrInmatriculare)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Autovehicul[0].Combustibil.TipCombustibil)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Autovehicul[0].Kilometraj)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Autovehicul[0].ConsumMixt)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Autovehicul[0].DataITP)
@@ -61,9 +119,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Autovehicul[0].DataRevizie)
             </th>
-            @if (User.IsInRole("Admin") || User.Identity.Name == "nora_oprescu@yahoo.com")
-            {
-                <th>@Html.DisplayNameFor(model => model.Autovehicul[0].Utilizator.FullName)</th>
             }
             <th></th>
         </tr>
@@ -72,25 +127,46 @@
 @foreach (var item in Model.Autovehicul) {
         <tr>
             <td>
+                    @Html.DisplayFor(modelItem => item.Poza)
+                    <img src="~/images/@(item.Model.ToLower()).jpg"
+                         style="border-radius: 12px; border: 3px solid #001f3f; max-height: 170px; object-fit: cover;" />
+
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Marca.NumeMarca)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
+            @if(!User.IsInRole("Admin"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Combustibil.TipCombustibil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Transmisie.TipTransmisie)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NrLocuri)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NrBagaje)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PretZi)
+                </td>
+                }
+                @if (User.IsInRole("Admin"))
+                {
             <td>
                 @Html.DisplayFor(modelItem => item.SerieSasiu)
             </td>
+                
             <td>
                 @Html.DisplayFor(modelItem => item.NrInmatriculare)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Combustibil.TipCombustibil)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Kilometraj)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ConsumMixt)
             </td>
                 <td style="@(item.DataITP.Date <= DateTime.Now.Date.AddDays(7) && item.DataITP.Date >= DateTime.Now.Date ? "background-color: #ffdce0; color: #b32424; font-weight: bold;" : "")">
                 @Html.DisplayFor(modelItem => item.DataITP)
@@ -105,28 +181,36 @@
                 <td style="@(item.DataRevizie.Date <= DateTime.Now.Date.AddDays(7) && item.DataRevizie.Date >= DateTime.Now.Date ? "background-color:  #ffdce0; color: #b32424; font-weight: bold;" : "")">
                  @Html.DisplayFor(modelItem => item.DataRevizie)
             </td>
-                @if (User.IsInRole("Admin") || User.Identity.Name == "nora_oprescu@yahoo.com")
-                {
-                    <td>@Html.DisplayFor(modelItem => item.Utilizator.FullName)</td>
-                }
+                
             <td>
-                    <a asp-page-handler="ExportPdf" asp-route-id="@item.ID" class="btn btn-navy-outline-icon"><i class="bi bi-file-earmark-pdf me-2"></i> Export PDF </a>
+                    <a asp-page-handler="ExportPdf" asp-route-id="@item.ID" class="btn btn-navy-outline-icon" target="_blank"><i class="bi bi-file-earmark-pdf me-2"></i> Export PDF </a>
                     <a asp-page="./Details" asp-route-id="@item.ID" class="btn btn-outline-navy btn-sm px-3 mx-1">
                         <i class="bi bi-eye"></i> Detalii
                     </a>
-                    @if (User.IsInRole("Admin") || User.Identity.Name == "nora_oprescu@yahoo.com")
-                    {
                         <a asp-page="./Edit" asp-route-id="@item.ID" class="btn btn-outline-navy btn-sm px-3">
                             <i class="bi bi-pencil"></i> Editare
                         </a>
                         <a asp-page="./Delete" asp-route-id="@item.ID" class="btn btn-outline-danger btn-sm px-3">
                             <i class="bi bi-trash"></i> Ștergere
-                        </a>
-                               
-                    }
-                    
+                        </a>                   
             </td>
+                    }
+                @if (User.IsInRole("User"))
+                {
+                    <td>
+                    <a class="btn btn-primary"
+                           asp-area="@(User.Identity.IsAuthenticated ? "" : "Identity")"
+                           asp-page="@(User.Identity.IsAuthenticated ? "/Rezervari/Create" : "/Account/Login")"
+                           asp-route-autovehiculId="@(User.Identity.IsAuthenticated? item.ID: null)">
+                        Rezervă
+                    </a>
+
+                </td>
+                }
         </tr>
 }
     </tbody>
 </table>
+
+
+

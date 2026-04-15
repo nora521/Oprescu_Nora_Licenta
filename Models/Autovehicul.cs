@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace Licenta.Models
 {
     public class Autovehicul
     {
         public int ID { get; set; }
-        [Display(Name = "Poză")]
         public string? Poza { get; set; }
         public int? MarcaID { get; set; }
         public Marca? Marca { get; set; }
@@ -18,9 +18,26 @@ namespace Licenta.Models
         public string NrInmatriculare { get; set; }
         public int? CombustibilID { get; set; }
         public Combustibil? Combustibil { get; set; }
+        [Display(Name = "Transmisie")]
+
+        public int? TransmisieID { get; set; }
+
+        public Transmisie? Transmisie { get; set; }
+        [Display(Name = "Nr. Locuri")]
+        public int? NrLocuri { get; set; }
+        [Display(Name = "Nr. Bagaje")]
+        public int? NrBagaje { get; set; }
+        [Display(Name = "Preț/Zi (€)")]
+        public decimal? PretZi { get; set; }
         public int Kilometraj { get; set; }
         [Display(Name = "Consum Mixt(l/100 km)")]
         public decimal ConsumMixt { get; set; }
+        public ICollection<AutoCategorie>? AutoCategorii { get; set; }
+        public int AnFabricatie { get; set; } 
+        public string Culoare { get; set; }
+        public int CP { get; set; }
+        public int CMC { get; set; }
+   
         [Display(Name = "Dată Exp. ITP")]
         [DataType(DataType.Date)]
         public DateTime DataITP { get; set; }
@@ -34,10 +51,13 @@ namespace Licenta.Models
         [DataType(DataType.Date)]
         public DateTime DataRevizie { get; set; }
 
-        [Display(Name = "Conducător auto")]
         public int? UtilizatorID { get; set; }
         public Utilizator? Utilizator { get; set; }
 
-        public bool Confirmare { get; set; } = false;
+        public ICollection<Rezervare>? Rezervari { get; set; }
+
+        // Flag used by the UI to indicate whether changes are confirmed
+        public bool Confirmare { get; set; }
+
     }
 }

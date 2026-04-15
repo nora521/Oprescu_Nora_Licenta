@@ -7,8 +7,8 @@ using QuestPDF.Infrastructure;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
-QuestPDF.Settings.License = LicenseType.Community; //export pdf
+QuestPDF.Settings.EnableDebugging = false;
+QuestPDF.Settings.License = LicenseType.Community; 
 
 
 builder.Services.AddAuthorization(options =>
@@ -20,13 +20,14 @@ builder.Services.AddAuthorization(options =>
 // Add services to the container.
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/Autovehicule");
+    options.Conventions.AuthorizeFolder("/Autovehicule/Index");
     options.Conventions.AuthorizeFolder("/Utilizatori");
-    options.Conventions.AuthorizeFolder("/Marci");
-    options.Conventions.AuthorizeFolder("/Combustibili");
+    options.Conventions.AuthorizeFolder("/Marci", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Combustibili", "AdminPolicy");
     options.Conventions.AuthorizeFolder("/Utilizatori", "AdminPolicy");
     options.Conventions.AuthorizeFolder("/Marci", "AdminPolicy");
     options.Conventions.AuthorizeFolder("/Combustibili", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Rezervari");
 });
 builder.Services.AddDbContext<LicentaContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LicentaContext") ?? throw new InvalidOperationException("Connection string 'LicentaContext' not found.")));
@@ -34,8 +35,8 @@ builder.Services.AddDbContext<LibraryIdentityContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LicentaContext") ?? throw new InvalidOperationException("Connection string 'LicentaContext' not found.")));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<LibraryIdentityContext>();
 
-builder.Services.AddTransient<Licenta.Services.EmailService>(); //serviciu mail
-builder.Services.AddHostedService<NotificariBackgroundService>(); //background service
+builder.Services.AddTransient<Licenta.Services.EmailService>(); 
+builder.Services.AddHostedService<NotificariBackgroundService>(); 
 
 var app = builder.Build();
 
@@ -64,8 +65,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapGet("/", () => Results.Redirect("/Autovehicule"));
 app.MapRazorPages();
 
 app.Run();

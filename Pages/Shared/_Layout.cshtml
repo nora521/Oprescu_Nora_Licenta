@@ -108,10 +108,17 @@
                                 <i class="bi bi-car-front me-1"></i> Autovehicule
                             </a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Utilizatori/Index">
-                                <i class="bi bi-people me-1"></i> Utilizatori
+                        @if (User.IsInRole("Admin") || User.Identity.Name == "nora_oprescu@yahoo.com")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-page="/Utilizatori/Index">
+                                        <i class="bi bi-people me-1"></i> Utilizatori
+                                    </a>
+                                </li>
+                            }
+                            <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Rezervari/Index">
+                                <i class="bi bi-calendar-check"></i> Rezervări
                             </a>
                         </li>
                     </ul>

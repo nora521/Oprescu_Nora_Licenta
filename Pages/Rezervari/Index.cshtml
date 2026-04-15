@@ -1,0 +1,75 @@
+﻿@page
+@model Licenta.Pages.Rezervari.IndexModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <h1>Rezervări</h1>
+}
+else
+{
+    <h1>Rezervările tale</h1>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].Utilizator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].Autovehicul)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].DataStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].DataFinal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].PretZi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].Garantie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].PretTotal)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Rezervare) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Utilizator.FullName)
+            </td>
+                <td>
+                    @item.Autovehicul.Marca.NumeMarca @item.Autovehicul.Model
+                </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.DataStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataFinal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PretZi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Garantie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PretTotal)
+            </td>
+            <td>
+                    <a asp-page="./Delete" asp-route-id="@item.ID" class="btn btn-outline-danger btn-sm px-3">Anulare Rezervare</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

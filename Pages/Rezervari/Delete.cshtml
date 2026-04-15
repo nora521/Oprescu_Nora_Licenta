@@ -1,0 +1,57 @@
+﻿@page
+@model Licenta.Pages.Rezervari.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Anulare rezervare</h1>
+
+<h3>Sunteți sigur(ă) că doriți să anulați rezervarea?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rezervare.Utilizator)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rezervare.Utilizator.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rezervare.Autovehicul)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Rezervare.Autovehicul.Marca.NumeMarca @Model.Rezervare.Autovehicul.Model
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rezervare.DataStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rezervare.DataStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rezervare.DataFinal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rezervare.DataFinal)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rezervare.PretZi)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rezervare.PretZi)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rezervare.PretTotal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rezervare.PretTotal)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Rezervare.ID" />
+        <input type="submit" value="Anulare" class="btn btn-danger" /> |
+        <a asp-page="./Index" class="btn btn-primary">Înapoi la listă</a>
+    </form>
+</div>

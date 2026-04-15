@@ -22,6 +22,29 @@ namespace Licenta.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Licenta.Models.AutoCategorie", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("AutovehiculID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategorieID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AutovehiculID");
+
+                    b.HasIndex("CategorieID");
+
+                    b.ToTable("AutoCategorie");
+                });
+
             modelBuilder.Entity("Licenta.Models.Autovehicul", b =>
                 {
                     b.Property<int>("ID")
@@ -29,6 +52,15 @@ namespace Licenta.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("AnFabricatie")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CMC")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CP")
+                        .HasColumnType("int");
 
                     b.Property<int?>("CombustibilID")
                         .HasColumnType("int");
@@ -38,6 +70,10 @@ namespace Licenta.Migrations
 
                     b.Property<decimal>("ConsumMixt")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Culoare")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DataITP")
                         .HasColumnType("datetime2");
@@ -61,16 +97,28 @@ namespace Licenta.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("NrBagaje")
+                        .HasColumnType("int");
+
                     b.Property<string>("NrInmatriculare")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("NrLocuri")
+                        .HasColumnType("int");
+
                     b.Property<string>("Poza")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("PretZi")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SerieSasiu")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TransmisieID")
+                        .HasColumnType("int");
 
                     b.Property<int?>("UtilizatorID")
                         .HasColumnType("int");
@@ -81,9 +129,28 @@ namespace Licenta.Migrations
 
                     b.HasIndex("MarcaID");
 
+                    b.HasIndex("TransmisieID");
+
                     b.HasIndex("UtilizatorID");
 
                     b.ToTable("Autovehicul");
+                });
+
+            modelBuilder.Entity("Licenta.Models.Categorie", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("TipCategorie")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Categorie");
                 });
 
             modelBuilder.Entity("Licenta.Models.Combustibil", b =>
@@ -120,6 +187,61 @@ namespace Licenta.Migrations
                     b.ToTable("Marca");
                 });
 
+            modelBuilder.Entity("Licenta.Models.Rezervare", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int?>("AutovehiculID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataFinal")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Garantie")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PretTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PretZi")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("UtilizatorID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AutovehiculID");
+
+                    b.HasIndex("UtilizatorID");
+
+                    b.ToTable("Rezervare");
+                });
+
+            modelBuilder.Entity("Licenta.Models.Transmisie", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("TipTransmisie")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Transmisie");
+                });
+
             modelBuilder.Entity("Licenta.Models.Utilizator", b =>
                 {
                     b.Property<int>("ID")
@@ -129,7 +251,6 @@ namespace Licenta.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("CNP")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -150,6 +271,9 @@ namespace Licenta.Migrations
 
                     b.Property<string>("Prenume")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeriePermis")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -359,6 +483,25 @@ namespace Licenta.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Licenta.Models.AutoCategorie", b =>
+                {
+                    b.HasOne("Licenta.Models.Autovehicul", "Autovehicul")
+                        .WithMany("AutoCategorii")
+                        .HasForeignKey("AutovehiculID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Licenta.Models.Categorie", "Categorie")
+                        .WithMany("AutoCategorii")
+                        .HasForeignKey("CategorieID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Autovehicul");
+
+                    b.Navigation("Categorie");
+                });
+
             modelBuilder.Entity("Licenta.Models.Autovehicul", b =>
                 {
                     b.HasOne("Licenta.Models.Combustibil", "Combustibil")
@@ -369,6 +512,10 @@ namespace Licenta.Migrations
                         .WithMany("Autovehicule")
                         .HasForeignKey("MarcaID");
 
+                    b.HasOne("Licenta.Models.Transmisie", "Transmisie")
+                        .WithMany()
+                        .HasForeignKey("TransmisieID");
+
                     b.HasOne("Licenta.Models.Utilizator", "Utilizator")
                         .WithMany("Autovehicule")
                         .HasForeignKey("UtilizatorID");
@@ -376,6 +523,23 @@ namespace Licenta.Migrations
                     b.Navigation("Combustibil");
 
                     b.Navigation("Marca");
+
+                    b.Navigation("Transmisie");
+
+                    b.Navigation("Utilizator");
+                });
+
+            modelBuilder.Entity("Licenta.Models.Rezervare", b =>
+                {
+                    b.HasOne("Licenta.Models.Autovehicul", "Autovehicul")
+                        .WithMany("Rezervari")
+                        .HasForeignKey("AutovehiculID");
+
+                    b.HasOne("Licenta.Models.Utilizator", "Utilizator")
+                        .WithMany("Rezervari")
+                        .HasForeignKey("UtilizatorID");
+
+                    b.Navigation("Autovehicul");
 
                     b.Navigation("Utilizator");
                 });
@@ -431,6 +595,18 @@ namespace Licenta.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Licenta.Models.Autovehicul", b =>
+                {
+                    b.Navigation("AutoCategorii");
+
+                    b.Navigation("Rezervari");
+                });
+
+            modelBuilder.Entity("Licenta.Models.Categorie", b =>
+                {
+                    b.Navigation("AutoCategorii");
+                });
+
             modelBuilder.Entity("Licenta.Models.Combustibil", b =>
                 {
                     b.Navigation("Autovehicule");
@@ -444,6 +620,8 @@ namespace Licenta.Migrations
             modelBuilder.Entity("Licenta.Models.Utilizator", b =>
                 {
                     b.Navigation("Autovehicule");
+
+                    b.Navigation("Rezervari");
                 });
 #pragma warning restore 612, 618
         }

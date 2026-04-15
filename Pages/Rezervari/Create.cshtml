@@ -1,0 +1,39 @@
+﻿@page
+@model Licenta.Pages.Rezervari.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Adăugare</h1>
+
+<h4>Rezervare</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <input type="hidden" asp-for="Rezervare.AutovehiculID" />
+           
+            <div class="form-group">
+                <label asp-for="Rezervare.DataStart" class="control-label"></label>
+                <input asp-for="Rezervare.DataStart" class="form-control" />
+                <span asp-validation-for="Rezervare.DataStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.DataFinal" class="control-label"></label>
+                <input asp-for="Rezervare.DataFinal" class="form-control" />
+                <span asp-validation-for="Rezervare.DataFinal" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                Rezervă
+            </button>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-page="/Autovehicule/Index" class="btn btn-primary">Înapoi</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

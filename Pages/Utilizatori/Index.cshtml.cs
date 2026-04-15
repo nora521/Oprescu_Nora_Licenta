@@ -28,6 +28,7 @@ namespace Licenta.Pages.Utilizatori
             CurrentFilter = searchString;
             var query = from u in _context.Utilizator
                         select u;
+            query = query.Where(u => u.Email != "nora_oprescu@yahoo.com");
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -35,7 +36,8 @@ namespace Licenta.Pages.Utilizatori
                                       || u.Prenume.Contains(searchString)
                                       || u.Email.Contains(searchString)
                                       || u.CNP.Contains(searchString)
-                                      || u.NrTelefon.Contains(searchString));
+                                      || u.NrTelefon.Contains(searchString)
+                                      || u.SeriePermis.Contains(searchString));
             }
 
             Utilizator = await query.ToListAsync();

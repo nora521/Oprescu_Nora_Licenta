@@ -28,7 +28,14 @@ namespace Licenta.Pages.Autovehicule
                 return NotFound();
             }
 
-            var autovehicul = await _context.Autovehicul.Include(a=>a.Marca).Include(c=>c.Combustibil).Include(u=>u.Utilizator).FirstOrDefaultAsync(m => m.ID == id);
+            var autovehicul = await _context.Autovehicul
+                .Include(a=>a.Marca)
+                .Include(c=>c.Combustibil)
+                .Include(u=>u.Utilizator).
+                Include(a => a.AutoCategorii)
+                .ThenInclude(ac => ac.Categorie)
+                .Include(t=>t.Transmisie)
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (autovehicul == null)
             {
                 return NotFound();

@@ -1,0 +1,60 @@
+﻿@page
+@model Licenta.Pages.Rezervari.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Rezervare</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Rezervare.ID" />
+            <div class="form-group">
+                <label asp-for="Rezervare.UtilizatorID" class="control-label"></label>
+                <select asp-for="Rezervare.UtilizatorID" class="form-control" asp-items="ViewBag.UtilizatorID" ></select>
+                <span asp-validation-for="Rezervare.UtilizatorID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.AutovehiculID" class="control-label"></label>
+                <select asp-for="Rezervare.AutovehiculID" class="form-control" asp-items="ViewBag.AutovehiculID" ></select>
+                <span asp-validation-for="Rezervare.AutovehiculID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.DataStart" class="control-label"></label>
+                <input asp-for="Rezervare.DataStart" class="form-control" />
+                <span asp-validation-for="Rezervare.DataStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.DataFinal" class="control-label"></label>
+                <input asp-for="Rezervare.DataFinal" class="form-control" />
+                <span asp-validation-for="Rezervare.DataFinal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.PretZi" class="control-label"></label>
+                <input asp-for="Rezervare.PretZi" class="form-control" />
+                <span asp-validation-for="Rezervare.PretZi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.PretTotal" class="control-label"></label>
+                <input asp-for="Rezervare.PretTotal" class="form-control" />
+                <span asp-validation-for="Rezervare.PretTotal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

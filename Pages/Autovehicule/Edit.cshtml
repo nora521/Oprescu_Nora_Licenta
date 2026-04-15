@@ -42,6 +42,27 @@
                 <span asp-validation-for="Autovehicul.CombustibilID" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Autovehicul.TransmisieID" class="control-label">Transmisie</label>
+                <select asp-for="Autovehicul.TransmisieID" class="form-control" asp-items="ViewBag.TransmisieID">
+                </select>
+                <span asp-validation-for="Autovehicul.TransmisieID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Autovehicul.NrLocuri" class="control-label"></label>
+                <input asp-for="Autovehicul.NrLocuri" class="form-control" />
+                <span asp-validation-for="Autovehicul.NrLocuri" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Autovehicul.NrBagaje" class="control-label"></label>
+                <input asp-for="Autovehicul.NrBagaje" class="form-control" />
+                <span asp-validation-for="Autovehicul.NrBagaje" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Autovehicul.PretZi" class="control-label"></label>
+                <input asp-for="Autovehicul.PretZi" class="form-control" />
+                <span asp-validation-for="Autovehicul.PretZi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Autovehicul.Kilometraj" class="control-label"></label>
                 <input asp-for="Autovehicul.Kilometraj" class="form-control" />
                 <span asp-validation-for="Autovehicul.Kilometraj" class="text-danger"></span>
@@ -50,6 +71,54 @@
                 <label asp-for="Autovehicul.ConsumMixt" class="control-label"></label>
                 <input asp-for="Autovehicul.ConsumMixt" class="form-control" />
                 <span asp-validation-for="Autovehicul.ConsumMixt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+    <div class="table">
+        <table>
+            <tr>
+                @{
+                    int cnt = 0;
+
+                    foreach (var cat in Model.AssignedCategoryDataList)
+                    {
+                        if (cnt++ % 3 == 0)
+                        {
+                            @:</tr><tr>
+                        }
+
+                        @:<td>
+                            <input type="checkbox"
+                                   name="selectedCategories"
+                                   value="@cat.CategoryID"
+                                   @(Html.Raw(cat.Assigned ? "checked=\"checked\"" : "")) />
+                            @cat.CategoryID @: @cat.Nume
+                        @:</td>
+                    }
+                    @:</tr>
+                }
+        </table>
+    </div>
+</div>
+
+            <div class="form-group">
+                <label asp-for="Autovehicul.AnFabricatie" class="control-label"></label>
+                <input asp-for="Autovehicul.AnFabricatie" class="form-control" />
+                <span asp-validation-for="Autovehicul.AnFabricatie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Autovehicul.Culoare" class="control-label"></label>
+                <input asp-for="Autovehicul.Culoare" class="form-control" />
+                <span asp-validation-for="Autovehicul.Culoare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Autovehicul.CP" class="control-label"></label>
+                <input asp-for="Autovehicul.CP" class="form-control" />
+                <span asp-validation-for="Autovehicul.CP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Autovehicul.CMC" class="control-label"></label>
+                <input asp-for="Autovehicul.CMC" class="form-control" />
+                <span asp-validation-for="Autovehicul.CMC" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Autovehicul.DataITP" class="control-label"></label>

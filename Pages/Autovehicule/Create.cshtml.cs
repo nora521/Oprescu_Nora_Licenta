@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 namespace Licenta.Pages.Autovehicule
 {
     [Authorize(Roles = "Admin")]
-    public class CreateModel : PageModel
+    public class CreateModel : AutoCategoriesPageModel
     {
         private readonly Licenta.Data.LicentaContext _context;
 
-        public CreateModel(Licenta.Data.LicentaContext context)
+        public CreateModel(Licenta.Data.LicentaContext context) : base(context)
         {
             _context = context;
         }
@@ -25,7 +25,13 @@ namespace Licenta.Pages.Autovehicule
         {
             ViewData["MarcaID"] = new SelectList(_context.Set<Marca>(), "ID","NumeMarca");
             ViewData["CombustibilID"] = new SelectList(_context.Set<Combustibil>(), "ID","TipCombustibil");
+            ViewData["TransmisieID"] = new SelectList(_context.Set<Transmisie>(), "ID", "TipTransmisie");
             ViewData["UtilizatorID"] = new SelectList(_context.Set<Utilizator>(), "ID","FullName");
+
+            var auto = new Autovehicul(); 
+            auto.AutoCategorii = new List<AutoCategorie>(); 
+            PopulateAssignedCategoryData(_context, auto);
+
             return Page();
         }
 
@@ -33,14 +39,23 @@ namespace Licenta.Pages.Autovehicule
         public Autovehicul Autovehicul { get; set; } = default!;
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string[] selectedCategories)
         {
-            if (!ModelState.IsValid)
+            var newAuto = new Autovehicul();
+            if (selectedCategories != null)
             {
-                return Page();
+                newAuto.AutoCategorii = new List<AutoCategorie>();
+                foreach (string category in selectedCategories)
+                {
+                    var catToAdd = new AutoCategorie
+                    {
+                        CategorieID = int.Parse(category)
+                    };
+                    newAuto.AutoCategorii.Add(catToAdd);
+                }
             }
-
-            _context.Autovehicul.Add(Autovehicul);
+            Autovehicul.AutoCategorii = newAuto.AutoCategorii; 
+            _context.Autovehicul.Add(Autovehicul); 
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

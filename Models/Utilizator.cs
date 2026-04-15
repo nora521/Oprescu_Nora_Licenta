@@ -7,7 +7,7 @@ namespace Licenta.Models
         public int ID { get; set; }
         public string Nume { get; set; }
         public string Prenume { get; set; }
-        [Display(Name = "Conducător auto")]
+        [Display(Name = "Nume")]
         public string? FullName
         {
             get
@@ -16,11 +16,15 @@ namespace Licenta.Models
             }
         }
 
-        public string CNP { get; set; }
+        public string? CNP { get; set; }
+        public string? SeriePermis { get; set; }    
         public string Email { get; set; }
         public string NrTelefon { get; set; }
         public string Parola { get; set; }
 
+
         public ICollection<Autovehicul>? Autovehicule { get; set; }
+
+        public ICollection<Rezervare>? Rezervari { get; set; }
     }
 }
