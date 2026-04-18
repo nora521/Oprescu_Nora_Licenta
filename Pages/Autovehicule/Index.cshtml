@@ -63,14 +63,13 @@
     </div>
 </form>
 
-
-
-
 <table class="table">
     <thead>
-        <tr>
+        @{
+            var rezervate = ViewData["RezervateIds"] as HashSet<int>;
+        }
+        <tr> 
             <th> 
-                
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Autovehicul[0].Marca.NumeMarca)
@@ -125,7 +124,8 @@
     </thead>
     <tbody>
 @foreach (var item in Model.Autovehicul) {
-        <tr>
+            <tr class="@(User.IsInRole("Admin") && rezervate != null && rezervate.Contains(item.ID) ? "rezervat" : "")">
+    
             <td>
                     @Html.DisplayFor(modelItem => item.Poza)
                     <img src="~/images/@(item.Model.ToLower()).jpg"
@@ -212,5 +212,12 @@
     </tbody>
 </table>
 
+<style>
+    .rezervat td:first-child {
+        border-left: 5px solid #ffc107 !important;
+    }
 
-
+    .rezervat {
+        background-color: #fff9e6 !important;
+    }
+</style>

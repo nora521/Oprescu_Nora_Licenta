@@ -1,0 +1,43 @@
+﻿@page
+@model Licenta.Pages.Chat
+<h2>Chatbot</h2>
+
+<div class="chat-container">
+    @foreach (var m in Model.Messages)
+    {
+        <div class="bubble @(m.Sender == "Tu" ? "right" : "left")">
+            @m.Text
+        </div>
+    }
+</div>
+
+<form method="post">
+    <textarea asp-for="UserMessage" rows="3" style="width:100%"></textarea>
+    <button type="submit">Trimite</button>
+</form>
+
+
+<style>
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .bubble {
+        padding: 10px 14px;
+        border-radius: 12px;
+        max-width: 70%;
+    }
+
+        .bubble.left {
+            background: #f1f1f1;
+            align-self: flex-start;
+        }
+
+        .bubble.right {
+            background: #d1e7ff;
+            align-self: flex-end;
+        }
+
+</style>

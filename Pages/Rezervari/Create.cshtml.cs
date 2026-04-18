@@ -29,7 +29,6 @@ namespace Licenta.Pages.Rezervari
 
         public Autovehicul Masina { get; set; }
 
-        // GET
         public IActionResult OnGet(int autovehiculId)
         {
             Masina = _context.Autovehicul
@@ -49,7 +48,6 @@ namespace Licenta.Pages.Rezervari
             return Page();
         }
 
-        // POST
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

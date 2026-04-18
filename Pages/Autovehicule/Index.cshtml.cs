@@ -75,16 +75,40 @@ namespace Licenta.Pages.Autovehicule
 
             var list = await query.ToListAsync();
 
+            var rezervari = await _context.Rezervare
+                .Select(r => new {
+                     r.AutovehiculID,
+                     r.DataStart,
+                     r.DataFinal
+                })
+                .ToListAsync();
+
             if (!User.IsInRole("Admin"))
             {
                 list = list
-                    .GroupBy(a => a.Model)
+                    .Where(a => !rezervari.Any(r =>
+                        r.AutovehiculID == a.ID &&
+                        r.DataStart <= DateTime.Today &&
+                        r.DataFinal >= DateTime.Today
+                        ))
+                    .ToList();
+
+                list = list
+                    .GroupBy(a => new { a.MarcaID, a.Model })
                     .Select(g => g.First())
                     .ToList();
             }
 
-            Autovehicul = list;
+            var rezervateIds = rezervari
+                .Where(r => r.AutovehiculID.HasValue &&
+                            r.DataStart <= DateTime.Today &&
+                            r.DataFinal >= DateTime.Today)
+                .Select(r => r.AutovehiculID!.Value)
+                .ToHashSet();
 
+            ViewData["RezervateIds"] = rezervateIds;
+
+            Autovehicul = list;
 
             ViewData["CategoryID"] = new SelectList(_context.Categorie, "ID", "TipCategorie");
 

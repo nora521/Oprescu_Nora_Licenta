@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using QuestPDF.Infrastructure;
+using OpenAI.Chat;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,7 +37,11 @@ builder.Services.AddDbContext<LibraryIdentityContext>(options =>
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<LibraryIdentityContext>();
 
 builder.Services.AddTransient<Licenta.Services.EmailService>(); 
-builder.Services.AddHostedService<NotificariBackgroundService>(); 
+builder.Services.AddHostedService<NotificariBackgroundService>();
+builder.Services.AddSingleton<ChatbotService>();
+builder.Services.AddSession();
+builder.Services.AddDistributedMemoryCache();
+
 
 var app = builder.Build();
 
@@ -64,11 +69,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGet("/", () => Results.Redirect("/Autovehicule"));
 app.MapRazorPages();
+
+
 
 app.Run();

@@ -55,8 +55,6 @@ namespace Licenta.Models
         public Utilizator? Utilizator { get; set; }
 
         public ICollection<Rezervare>? Rezervari { get; set; }
-
-        // Flag used by the UI to indicate whether changes are confirmed
         public bool Confirmare { get; set; }
 
     }
