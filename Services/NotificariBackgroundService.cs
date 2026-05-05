@@ -104,6 +104,54 @@ namespace Licenta.Services
                         }
                     }
                 }
+
+                var maine = DateTime.Now.Date.AddDays(1);
+
+                var rezervari = await context.Rezervare
+                    .Include(r => r.Autovehicul)
+                        .ThenInclude(a => a.Marca)
+                    .Include(r => r.Utilizator)
+                    .Where(r =>
+                        r.DataStart.Date == maine ||   
+                        r.DataFinal.Date == maine    
+                    )
+                    .ToListAsync(stoppingToken);
+
+                foreach (var rez in rezervari)
+                {
+                    string tipNotificare = rez.DataStart.Date == maine
+                        ? "Ridicare mașină"
+                        : "Predare mașină";
+
+                    string mesaj = rez.DataStart.Date == maine
+                        ? $"Mâine trebuie să ridicați mașina închiriată: <b>{rez.Autovehicul.Marca.NumeMarca} {rez.Autovehicul.Model}</b>."
+                        : $"Mâine trebuie să predați mașina închiriată: <b>{rez.Autovehicul.Marca.NumeMarca} {rez.Autovehicul.Model}</b>.";
+
+                    string html = $@"
+        <div style='font-family: Arial; padding: 20px;'>
+            <h2>{tipNotificare}</h2>
+            <p>Bună <b>{rez.Utilizator.FullName}</b>,</p>
+            <p>{mesaj}</p>
+
+            <h3>Detalii rezervare</h3>
+            <ul>
+                <li><b>Vehicul:</b> {rez.Autovehicul.Marca.NumeMarca} {rez.Autovehicul.Model}</li>
+                <li><b>Data început:</b> {rez.DataStart:dd.MM.yyyy}</li>
+                <li><b>Data sfârșit:</b> {rez.DataFinal:dd.MM.yyyy}</li>
+                <li><b>Preț total:</b> {rez.PretTotal} €</li>
+            </ul>
+        </div>";
+
+                    await emailService.SendNotificationEmailAsync(
+                        rez.Utilizator.Email,
+                        rez.Utilizator.FullName,
+                        tipNotificare,
+                        html
+                    );
+
+                    Console.WriteLine($"[ROBOT] Notificare rezervare trimisă către {rez.Utilizator.Email} pentru rezervarea {rez.ID}");
+                }
+
             }
         }
 

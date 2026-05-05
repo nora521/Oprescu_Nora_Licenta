@@ -23,6 +23,7 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Autovehicule/Index");
     options.Conventions.AuthorizeFolder("/Utilizatori");
+    options.Conventions.AuthorizePage("/Chat");
     options.Conventions.AuthorizeFolder("/Marci", "AdminPolicy");
     options.Conventions.AuthorizeFolder("/Combustibili", "AdminPolicy");
     options.Conventions.AuthorizeFolder("/Utilizatori", "AdminPolicy");

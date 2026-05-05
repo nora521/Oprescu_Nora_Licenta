@@ -28,7 +28,7 @@ namespace Licenta.Models
         [Display(Name = "Nr. Bagaje")]
         public int? NrBagaje { get; set; }
         [Display(Name = "Preț/Zi (€)")]
-        public decimal? PretZi { get; set; }
+        public decimal PretZi { get; set; }
         public int Kilometraj { get; set; }
         [Display(Name = "Consum Mixt(l/100 km)")]
         public decimal ConsumMixt { get; set; }
