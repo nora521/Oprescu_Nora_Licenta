@@ -1,0 +1,67 @@
+﻿@page
+@model Licenta.Pages.Feedbacks.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Feedbacks</h1>
+
+<p>
+ 
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Feedback[0].Rezervare.Utilizator.FullName)
+            </th>
+            <th>
+                Autovehicul
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Feedback[0].Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Feedback[0].Comentariu)
+            </th>
+            <th>
+                Dată Feedback
+            </th>
+            <th>
+                ID Rezervare
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Feedback) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rezervare.Utilizator.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rezervare.Autovehicul.Marca.NumeMarca)
+                    @Html.DisplayFor(modelItem => item.Rezervare.Autovehicul.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comentariu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataFeedback)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rezervare.ID)
+            </td>
+            <td>
+                <a asp-page="./Delete" asp-route-id="@item.ID" class="btn btn-primary">Ștergere</a>
+            </td>
+        </tr>
+}
+
+    </tbody>
+
+</table>

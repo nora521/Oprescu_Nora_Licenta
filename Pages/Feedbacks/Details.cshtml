@@ -1,0 +1,43 @@
+﻿@page
+@model Licenta.Pages.Feedbacks.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Feedback</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Feedback.Rating)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Feedback.Rating)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Feedback.Comentariu)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Feedback.Comentariu)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Feedback.DataFeedback)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Feedback.DataFeedback)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Feedback.Rezervare)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Feedback.Rezervare.ID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Feedback.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

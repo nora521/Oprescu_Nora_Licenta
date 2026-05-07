@@ -23,5 +23,6 @@ namespace Licenta.Data
         public DbSet<Licenta.Models.Transmisie> Transmisie { get; set; } = default!;
         public DbSet<Licenta.Models.Categorie> Categorie { get; set; } = default!;
         public DbSet<Licenta.Models.AutoCategorie> AutoCategorie { get; set; } = default!;
+        public DbSet<Licenta.Models.Feedback> Feedback { get; set; } = default!;
     }
 }

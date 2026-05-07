@@ -19,7 +19,7 @@ namespace Licenta.Services
             while (!stoppingToken.IsCancellationRequested)
             {
                 await CheckAndSend(stoppingToken);
-                await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
             }
         }
 
@@ -152,8 +152,46 @@ namespace Licenta.Services
                     Console.WriteLine($"[ROBOT] Notificare rezervare trimisă către {rez.Utilizator.Email} pentru rezervarea {rez.ID}");
                 }
 
+                var adesso = DateTime.Now; // current date AND time, e.g. 07-May-26 2:48 PM
+
+                var rezervariTerminate = await context.Rezervare
+                    .Include(r => r.Utilizator)
+                    .Where(r => r.DataFinal < adesso && r.EmailFeedbackTrimis != true)
+                    .ToListAsync(stoppingToken);
+
+                Console.WriteLine($"[ROBOT] adesso = {adesso}");
+                Console.WriteLine($"[ROBOT] Rezervari terminate găsite: {rezervariTerminate.Count}");
+                foreach (var r in rezervariTerminate)
+                    Console.WriteLine($"[ROBOT] → ID={r.ID}, DataFinal={r.DataFinal:dd.MM.yyyy}, FeedbackTrimis={r.EmailFeedbackTrimis}, Email={r.Utilizator?.Email}");
+
+                foreach (var rez in rezervariTerminate)
+                {
+                    try
+                    {
+                        await emailService.TrimiteEmailFeedbackAsync(
+                            rez.Utilizator.Email,
+                            rez.Utilizator.FullName,
+                            rez.ID);
+
+                        rez.EmailFeedbackTrimis = true;
+                        await context.SaveChangesAsync(stoppingToken);
+
+                        Console.WriteLine($"[ROBOT] Email feedback trimis către {rez.Utilizator.Email} pentru rezervarea {rez.ID}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[ROBOT] Eroare feedback: {ex.Message}");
+                    }
+                }
+
+                await context.SaveChangesAsync(stoppingToken);
+
             }
+
+
         }
+
+
 
     }
 }

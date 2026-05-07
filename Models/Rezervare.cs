@@ -27,6 +27,6 @@ namespace Licenta.Models
         [Display(Name = "Preț Total (€)")]
         public decimal PretTotal { get; set; }
 
-
+        public bool EmailFeedbackTrimis { get; set; } = false;
     }
 }
