@@ -16,11 +16,26 @@ namespace Licenta.Models
             }
         }
 
-        public string? CNP { get; set; }
-        public string? SeriePermis { get; set; }    
+        public string? CNP { get; set; }  
         public string Email { get; set; }
         public string NrTelefon { get; set; }
         public string Parola { get; set; }
+
+        public string? PermisFataPath { get; set; }
+
+        public string? PermisVersoPath { get; set; }
+
+        public string? SeriePermis { get; set; }
+
+        public DateTime? DataNasterii { get; set; }
+
+        public DateTime? DataEmiterePermis { get; set; }
+
+        public DateTime? DataExpirarePermis { get; set; }
+
+        public string? CategoriiPermis { get; set; }
+
+        public bool PermisVerificat { get; set; }
 
 
         public ICollection<Autovehicul>? Autovehicule { get; set; }

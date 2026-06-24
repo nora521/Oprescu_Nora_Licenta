@@ -152,7 +152,7 @@ namespace Licenta.Services
                     Console.WriteLine($"[ROBOT] Notificare rezervare trimisă către {rez.Utilizator.Email} pentru rezervarea {rez.ID}");
                 }
 
-                var adesso = DateTime.Now; // current date AND time, e.g. 07-May-26 2:48 PM
+                var adesso = DateTime.Now; 
 
                 var rezervariTerminate = await context.Rezervare
                     .Include(r => r.Utilizator)

@@ -1,10 +1,12 @@
 using Licenta.Data;
 using Licenta.Services;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using QuestPDF.Infrastructure;
 using OpenAI.Chat;
+using QuestPDF.Infrastructure;
+using Licenta.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +32,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizeFolder("/Marci", "AdminPolicy");
     options.Conventions.AuthorizeFolder("/Combustibili", "AdminPolicy");
     options.Conventions.AuthorizeFolder("/Rezervari");
+    options.Conventions.AuthorizePage("/Permise/Permis");
 });
 builder.Services.AddDbContext<LicentaContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LicentaContext") ?? throw new InvalidOperationException("Connection string 'LicentaContext' not found.")));
@@ -37,11 +40,16 @@ builder.Services.AddDbContext<LibraryIdentityContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LicentaContext") ?? throw new InvalidOperationException("Connection string 'LicentaContext' not found.")));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<LibraryIdentityContext>();
 
-builder.Services.AddTransient<Licenta.Services.EmailService>(); 
-builder.Services.AddHostedService<NotificariBackgroundService>();
+builder.Services.AddScoped<PermisParser>();
+builder.Services.AddTransient<Licenta.Services.EmailService>(); builder.Services.AddHostedService<NotificariBackgroundService>();
 builder.Services.AddSingleton<ChatbotService>();
 builder.Services.AddSession();
 builder.Services.AddDistributedMemoryCache();
+Environment.SetEnvironmentVariable(
+    "GOOGLE_APPLICATION_CREDENTIALS",
+    Path.Combine(Directory.GetCurrentDirectory(), "google-credentials.json"));
+
+builder.Services.AddScoped<OCRService>();
 
 
 var app = builder.Build();

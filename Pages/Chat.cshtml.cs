@@ -13,8 +13,9 @@ namespace Licenta.Pages
     {
         private readonly ChatbotService _chatbot;
         private readonly LicentaContext _db;
-
-        private const string SessionKey = "ChatHistory";
+ 
+        private string SessionKey =>
+    $"ChatHistory_{User.Identity?.Name}";
 
         private readonly EmailService _email;
 
@@ -105,7 +106,6 @@ Autovehicule disponibile:
 Rolul tău este:
 - să înțelegi ce autovehicul vrea utilizatorul (după marcă și model)
 - să înțelegi perioada dorită (data de început și data de sfârșit)
-- să întorci un JSON VALID pentru backend atunci când utilizatorul vrea să facă o rezervare.
 
 Reguli pentru recomandări:
 - Dacă utilizatorul cere autovehicule pentru munte, recomanzi autovehicule din clasa SUV.
@@ -127,28 +127,28 @@ NU verifici disponibilitatea autovehiculelor.
 NU decizi dacă un autovehicul este ocupat sau liber.
 NU verifici suprapuneri de rezervări.
 Doar extragi intenția și construiești JSON-ul.
+Când utilizatorul oferă toate datele pentru rezervare,
+întoarce STRICT doar JSON VALID pentru backend, fără text înainte sau după.
 
-Când utilizatorul confirmă că vrea să facă o rezervare,
-întoarce STRICT un JSON VALID, fără text înainte sau după, în formatul:
+Backend-ul va ascunde JSON-ul și va afișa mesajul de confirmare.
+Tu nu trebuie să scrii mesaj de confirmare când returnezi JSON.
 
+Format intern pentru backend:
 {{
   ""action"": ""create_reservation"",
   ""autovehiculId"": 123,
   ""start"": ""2026-05-10"",
   ""end"": ""2026-05-15""
 }}
+Dacă utilizatorul vrea să facă o rezervare, dar nu a oferit încă mașina sau perioada,
+răspunde normal în română și cere informațiile lipsă.
 
-- ""autovehiculId"" trebuie să fie un ID din lista de autovehicule.
-- ""start"" și ""end"" trebuie să fie în format ""yyyy-MM-dd"".
+Dacă utilizatorul doar începe procesul de rezervare, întreabă-l ce autovehicul dorește și pentru ce perioadă.
 
-Dacă utilizatorul NU vrea să facă o rezervare, întoarce:
+Dacă utilizatorul cere informații, recomandări sau nu a oferit toate datele necesare, răspunde normal în română.
 
-{{
-  ""action"": ""none""
-}}
 
 NU adăuga explicații.
-NU adăuga text în afara JSON-ului.
 NU adăuga alte câmpuri.
 "));
 
@@ -209,13 +209,107 @@ NU adăuga alte câmpuri.
                             .Select(a => a.PretZi)
                             .FirstAsync();
 
-                        var userEmail = User.Identity.Name;
-                        var user = await _db.Utilizator.FirstOrDefaultAsync(u => u.Email == userEmail);
-                 
+                        var userEmail = User.Identity?.Name;
+
+                        if (string.IsNullOrEmpty(userEmail))
+                        {
+                            Messages.Add(new ChatMessageModel
+                            {
+                                Sender = "Tu",
+                                Text = UserMessage
+                            });
+
+                            Messages.Add(new ChatMessageModel
+                            {
+                                Sender = "Bot",
+                                Text = "Trebuie să fii autentificat pentru a face o rezervare."
+                            });
+
+                            SaveHistory(Messages);
+                            return RedirectToPage();
+                        }
+
+                        var user = await _db.Utilizator
+                            .FirstOrDefaultAsync(u => u.Email == userEmail);
+
+                        if (user == null)
+                        {
+                            Messages.Add(new ChatMessageModel
+                            {
+                                Sender = "Tu",
+                                Text = UserMessage
+                            });
+
+                            Messages.Add(new ChatMessageModel
+                            {
+                                Sender = "Bot",
+                                Text = "Pentru a crea o rezervare trebuie să încărcați permisul de conducere. Vă rog să reveniți după ce ați efectuat acea acțiune."
+                            });
+
+                            SaveHistory(Messages);
+                            return RedirectToPage();
+                        }
+
+                        if (!user.PermisVerificat)
+                        {
+                            Messages.Add(new ChatMessageModel
+                            {
+                                Sender = "Tu",
+                                Text = UserMessage
+                            });
+
+                            Messages.Add(new ChatMessageModel
+                            {
+                                Sender = "Bot",
+                                Text = "Pentru a crea o rezervare trebuie să încărcați permisul de conducere. Vă rog să reveniți după ce ați efectuat acea acțiune."
+                            });
+
+                            SaveHistory(Messages);
+                            return RedirectToPage();
+                        }
+
+                        if (user.DataExpirarePermis == null ||
+                            user.DataExpirarePermis < DateTime.Today)
+                        {
+                            Messages.Add(new ChatMessageModel
+                            {
+                                Sender = "Tu",
+                                Text = UserMessage
+                            });
+
+                            Messages.Add(new ChatMessageModel
+                            {
+                                Sender = "Bot",
+                                Text = "Nu pot crea rezervarea. Permisul este expirat sau nu a fost citit corect."
+                            });
+
+                            SaveHistory(Messages);
+                            return RedirectToPage();
+                        }
+
+                        if (string.IsNullOrEmpty(user.CategoriiPermis) ||
+                            !user.CategoriiPermis.Contains("B"))
+                        {
+                            Messages.Add(new ChatMessageModel
+                            {
+                                Sender = "Tu",
+                                Text = UserMessage
+                            });
+
+                            Messages.Add(new ChatMessageModel
+                            {
+                                Sender = "Bot",
+                                Text = "Nu pot crea rezervarea. Nu ai categoria B necesară pentru acest autovehicul."
+                            });
+
+                            SaveHistory(Messages);
+                            return RedirectToPage();
+                        }
+
                         var masina = await _db.Autovehicul
-                        .Include(a => a.AutoCategorii)
-                        .ThenInclude(ac => ac.Categorie)
-                        .FirstOrDefaultAsync(a => a.ID == carId);
+                            .Include(a => a.AutoCategorii)
+                            .ThenInclude(ac => ac.Categorie)
+                            .FirstOrDefaultAsync(a => a.ID == carId);
 
                         var categorii = masina.AutoCategorii
                             .Select(ac => ac.Categorie.TipCategorie)

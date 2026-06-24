@@ -1,0 +1,37 @@
+﻿@page
+@model Licenta.Pages.Permise.PermisModel
+
+<h2>Încarcă permis</h2>
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label>Permis Față</label>
+
+        <input type="file"
+               name="permisFata"
+               accept=".jpg,.jpeg,.png"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Permis Verso</label>
+
+        <input type="file"
+               name="permisVerso"
+               accept=".jpg,.jpeg,.png"
+               class="form-control" />
+    </div>
+
+    <button class="btn btn-primary">
+        Încarcă
+    </button>
+
+</form>
+
+@if (Model.Mesaj != null)
+{
+    <div class="alert alert-info mt-3">
+        @Html.Raw(Model.Mesaj)
+    </div>
+}

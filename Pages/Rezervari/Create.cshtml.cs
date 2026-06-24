@@ -16,6 +16,8 @@ namespace Licenta.Pages.Rezervari
     {
         private readonly Licenta.Data.LicentaContext _context;
         private readonly EmailService _emailService;
+        [TempData]
+        public string? ErrorMessage { get; set; }
 
         public CreateModel(Licenta.Data.LicentaContext context, EmailService emailService)
         {
@@ -23,6 +25,12 @@ namespace Licenta.Pages.Rezervari
             _emailService = emailService;
         }
 
+        private async Task IncarcaMasinaAsync()
+        {
+            Masina = await _context.Autovehicul
+                .Include(a => a.Marca)
+                .FirstOrDefaultAsync(a => a.ID == Rezervare.AutovehiculID);
+        }
 
         [BindProperty]
         public Rezervare Rezervare { get; set; }
@@ -50,16 +58,45 @@ namespace Licenta.Pages.Rezervari
 
         public async Task<IActionResult> OnPostAsync()
         {
+
             if (!ModelState.IsValid)
+            {
                 return Page();
+            }
 
-            var email = User.Identity.Name;
+            var email = User.Identity?.Name;
 
-            var user = _context.Utilizator
-                .FirstOrDefault(u => u.Email == email);
+            if (string.IsNullOrEmpty(email))
+            {
+                await IncarcaMasinaAsync();
+                ModelState.AddModelError("", "Trebuie să fiți autentificat pentru a face o rezervare.");
+                return Page();
+            }
+
+            var user = await _context.Utilizator
+                .FirstOrDefaultAsync(u => u.Email == email);
 
             if (user == null)
-                return Unauthorized();
+            {
+                await IncarcaMasinaAsync();
+                ModelState.AddModelError("", "Pentru a putea face o rezervare trebuie să încărcați datele permisului de conducere.");
+                return Page();
+            }
+
+            if (!user.PermisVerificat)
+            {
+                return RedirectToPage("/Permise/Permis");
+            }
+
+            if (user.DataExpirarePermis == null || user.DataExpirarePermis < DateTime.Today)
+            {
+                ErrorMessage = "Permisul este expirat.";
+            }
+
+            if (string.IsNullOrEmpty(user.CategoriiPermis) || !user.CategoriiPermis.Contains("B"))
+            {
+                ErrorMessage = "Nu aveți categoria B necesară pentru rezervare.";
+            }
 
             Rezervare.UtilizatorID = user.ID;
 

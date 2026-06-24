@@ -9,6 +9,7 @@
 
 <h4>Rezervare</h4>
 <hr />
+<div asp-validation-summary="All" class="text-danger mb-3"></div>
 <div class="row">
     <div class="col-md-4">
         <form method="post">
@@ -30,8 +31,10 @@
         </form>
     </div>
 </div>
+<br></>
 <div>
-    <a asp-page="/Autovehicule/Index" class="btn btn-primary">Înapoi</a>
+    <a asp-page="/Autovehicule/Index" class="btn btn-primary">Înapoi</a> |
+    <a asp-page="/Permise/Permis" class="btn btn-primary">Permis</a>
 </div>
 
 @section Scripts {

@@ -94,9 +94,6 @@ namespace Licenta.Areas.Identity.Pages.Account
             public string CNP { get; set; }
 
             [Required]
-            public string SeriePermis { get; set; }
-
-            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -159,7 +156,6 @@ namespace Licenta.Areas.Identity.Pages.Account
                         Nume = Input.Nume,
                         Prenume = Input.Prenume,
                         CNP = Input.CNP,
-                        SeriePermis=Input.SeriePermis,
                         Email = Input.Email,
                         NrTelefon = Input.NrTelefon,
                         Parola = Input.Password

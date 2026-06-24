@@ -12,6 +12,7 @@ using QuestPDF.Infrastructure;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -256,6 +257,19 @@ namespace Licenta.Pages.Autovehicule
                 container.BorderBottom(1).BorderColor(Colors.Grey.Lighten3).PaddingVertical(5);
         }
 
-     
+        public class Utilizator
+        {
+            public int ID { get; set; }
+
+            [Column("PermisFataPath")]
+            public string? PermisFata { get; set; }
+
+            [Column("PermisVersoPath")]
+            public string? PermisVerso { get; set; }
+
+            [Column("NumarPermis")] 
+            public string? SeriePermis { get; set; }
+
+        }
     }
 }

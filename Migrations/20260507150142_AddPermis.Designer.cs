@@ -4,6 +4,7 @@ using Licenta.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Licenta.Migrations
 {
     [DbContext(typeof(LicentaContext))]
-    partial class LicentaContextModelSnapshot : ModelSnapshot
+    [Migration("20260507150142_AddPermis")]
+    partial class AddPermis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +45,7 @@ namespace Licenta.Migrations
 
                     b.HasIndex("CategorieID");
 
-                    b.ToTable("AutoCategorie", (string)null);
+                    b.ToTable("AutoCategorie");
                 });
 
             modelBuilder.Entity("Licenta.Models.Autovehicul", b =>
@@ -133,7 +136,7 @@ namespace Licenta.Migrations
 
                     b.HasIndex("UtilizatorID");
 
-                    b.ToTable("Autovehicul", (string)null);
+                    b.ToTable("Autovehicul");
                 });
 
             modelBuilder.Entity("Licenta.Models.Categorie", b =>
@@ -150,7 +153,7 @@ namespace Licenta.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Categorie", (string)null);
+                    b.ToTable("Categorie");
                 });
 
             modelBuilder.Entity("Licenta.Models.Combustibil", b =>
@@ -167,7 +170,7 @@ namespace Licenta.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Combustibil", (string)null);
+                    b.ToTable("Combustibil");
                 });
 
             modelBuilder.Entity("Licenta.Models.Feedback", b =>
@@ -195,7 +198,7 @@ namespace Licenta.Migrations
 
                     b.HasIndex("RezervareId");
 
-                    b.ToTable("Feedback", (string)null);
+                    b.ToTable("Feedback");
                 });
 
             modelBuilder.Entity("Licenta.Models.Marca", b =>
@@ -212,7 +215,7 @@ namespace Licenta.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Marca", (string)null);
+                    b.ToTable("Marca");
                 });
 
             modelBuilder.Entity("Licenta.Models.Rezervare", b =>
@@ -253,7 +256,7 @@ namespace Licenta.Migrations
 
                     b.HasIndex("UtilizatorID");
 
-                    b.ToTable("Rezervare", (string)null);
+                    b.ToTable("Rezervare");
                 });
 
             modelBuilder.Entity("Licenta.Models.Transmisie", b =>
@@ -270,7 +273,7 @@ namespace Licenta.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Transmisie", (string)null);
+                    b.ToTable("Transmisie");
                 });
 
             modelBuilder.Entity("Licenta.Models.Utilizator", b =>
@@ -316,13 +319,13 @@ namespace Licenta.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PermisFataPath")
+                    b.Property<string>("PermisFata")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PermisVerificat")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PermisVersoPath")
+                    b.Property<string>("PermisVerso")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Prenume")
@@ -334,7 +337,7 @@ namespace Licenta.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Utilizator", (string)null);
+                    b.ToTable("Utilizator");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

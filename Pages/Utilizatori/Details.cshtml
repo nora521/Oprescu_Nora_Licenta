@@ -30,12 +30,6 @@
             @Html.DisplayFor(model => model.Utilizator.CNP)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Utilizator.SeriePermis)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Utilizator.SeriePermis)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Utilizator.Email)
         </dt>
         <dd class="col-sm-10">
@@ -46,6 +40,44 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Utilizator.NrTelefon)
+        </dd>
+        <dt class="col-sm-2">
+            Permis verificat
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.Utilizator.PermisVerificat ? "Da" : "Nu")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Utilizator.SeriePermis)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Utilizator.SeriePermis)
+        </dd>
+        <dt class="col-sm-2">
+            Categorii permis
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Utilizator.CategoriiPermis)
+        </dd>
+        <dt class="col-sm-2">
+            Data emitere permis
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Utilizator.DataEmiterePermis)
+        </dd>
+
+        <dt class="col-sm-2">
+            Data expirare permis
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Utilizator.DataExpirarePermis)
+        </dd>
+
+        <dt class="col-sm-2">
+            Data nașterii
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Utilizator.DataNasterii)
         </dd>
 
     </dl>
